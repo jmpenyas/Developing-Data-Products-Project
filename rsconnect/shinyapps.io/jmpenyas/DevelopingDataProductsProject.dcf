@@ -1,0 +1,13 @@
+name: DevelopingDataProductsProject
+title: DevelopingDataProductsProject
+username:
+account: jmpenyas
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 409755
+bundleId: 1558603
+url: https://jmpenyas.shinyapps.io/DevelopingDataProductsProject/
+when: 1535485839.27401
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: descarga.jfif|ui - copia.R
