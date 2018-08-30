@@ -11,11 +11,13 @@ library(shiny)
 library(forecast)
 library(ggplot2)
 library(plotly)
-# Define server logic required to draw a histogram
+# Define server logic required  that forecast the airpassengers.
 shinyServer(function(input, output) {
+      # Loading Air Passengers data set
       data("AirPassengers")
+      # Defining arima model
       arimaModel <-  auto.arima(AirPassengers)
-      
+      # Defining arima forecast plot reading sliders info
       plotArima <-
             
             reactive({
@@ -26,6 +28,7 @@ shinyServer(function(input, output) {
                   ggplotly(autoplot(predArima))
                   
             })
+      # Defining Horton Wilt forecast plot reading sliders info
       predHw <- reactive({
             modelHw <-
                   hw(
@@ -36,7 +39,15 @@ shinyServer(function(input, output) {
                   )
             ggplotly(autoplot(modelHw))
       })
+      # Getting the decomposition of the time series
+      decPlot <- reactive({
+            decomp <- decompose(AirPassengers, type = "multiplicative")
+            autoplot(decomp)  
+      })
+
+      # Outputting the plots to show them at the UI
       output$arima <- renderPlotly(plotArima())
       output$hw <- renderPlotly(predHw())
+      output$decomp <- renderPlotly(decPlot())
       
 })

@@ -9,14 +9,21 @@
 library(shinydashboard)
 library(shiny)
 library(plotly)
-# Define UI for application that draws a histogram
+# Define UI for application that forecasts the airpassengers.
+# It uses dashboard elements from shinydashboard package not the default fluidpages from shiny
 shinyUI(dashboardPage(
       dashboardHeader(title = "Air Passengers"),
       dashboardSidebar(
+            # Dashboard Items from the sidebar
             menuItem(
                   "Prediction",
                   tabName = "dashboard",
                   icon = icon("cog", lib = "glyphicon")
+            ),
+            menuItem(
+                  "Series Decomposition",
+                  tabName = "decom",
+                  icon = icon("bar-chart-o")
             ),
             menuItem(
                   "How to use it?",
@@ -25,13 +32,17 @@ shinyUI(dashboardPage(
             )
       ),
       dashboardBody(tabItems(
+            # Tabs related to the menu items of the sidebar
             tabItem(tabName = "dashboard",
+                    # Arima Plot
                     fluidRow(box(
                           plotlyOutput("arima")
                     ),
+                    #Horton WiltPlot
                     box(plotlyOutput(
                           "hw"
                     ))),
+                    # Sliders. They have been put on the tab as the dashboard menu items don't work properly if one of them has items as sliders or input boxes.
                     fluidRow(box(
                           sliderInput(
                                 "periods",
@@ -49,6 +60,11 @@ shinyUI(dashboardPage(
                                 value = 95
                           )
                     ))),
+            # Time series Decomposition plot
+            tabItem(tabName = "decom", fluidRow(
+                  plotlyOutput("decomp")
+            )),
+            # Small guide with links to presentation and source code
             tabItem(
                   tabName = "education",
                   h2("How to use this application"),
@@ -59,8 +75,10 @@ shinyUI(dashboardPage(
                   p(
                         "Click on Prediction Menu and use the slides to select the months to forecast and the confidence interval of the predictions. Both plots will reload with new data. This process can take time. Be patien, please!"
                   ),
-                  
-                  tags$a(href = "https://github.com/jmpenyas/Developing-Data-Products-Project", "You can find the source here"),
+                  p(
+                        "Click on Series Decomposition Menu to see the decomposition plot of the AirPassengers time series."
+                  ),                  
+                  tags$a(href = "http://rpubs.com/jmpenyas/415567", "You can find the source here"),
                   br(),
                   tags$a(href = "https://github.com/jmpenyas/Developing-Data-Products-Project", "Here you can find the presentation of the application."),
                   class = "active"
